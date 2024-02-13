@@ -1,0 +1,35 @@
+{
+  "name": "nettoweb/laravel-cms-store",
+  "description": "Online store for Nettoweb content management system",
+  "type": "library",
+  "version": "1.0.0",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Netto\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Alexander Sidorenkov",
+      "email": "contact@nettoweb.ru"
+    }
+  ],
+  "require": {
+      "nettoweb/laravel-cms-currency": "^1.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^8.0",
+    "phpunit/phpunit": "^10.5"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Netto\\StoreServiceProvider"
+      ]
+    }
+  }
+}
