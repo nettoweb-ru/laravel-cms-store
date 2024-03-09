@@ -14,18 +14,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(self::TABLE, function (Blueprint $table) {
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('object_id');
             $table->unsignedBigInteger('lang_id');
             $table->string('title');
-            $table->longText('content')->nullable()->default(null);
+            $table->longText('content');
             $table->string('meta_title')->nullable()->default(null);
-            $table->text('meta_description')->nullable()->default(null);
-            $table->text('meta_keywords')->nullable()->default(null);
+            $table->text('meta_description');
+            $table->text('meta_keywords');
             $table->string('og_title')->nullable()->default(null);
-            $table->text('og_description')->nullable()->default(null);
+            $table->text('og_description');
 
-            $table->unique(['group_id', 'lang_id']);
-            $table->foreign('group_id')->references('id')->on('cms__groups')->onDelete('cascade')->onUpdate('cascade');
+            $table->unique(['object_id', 'lang_id']);
+            $table->foreign('object_id')->references('id')->on('cms__groups')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('lang_id')->references('id')->on('cms__languages')->onDelete('cascade')->onUpdate('cascade');
         });
     }

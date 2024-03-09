@@ -234,6 +234,12 @@ class MerchandiseController extends Abstract\AdminCrudController
             }
         }
 
+        if (method_exists($model, 'saveUploaded')) {
+            if (!$model->saveUploaded($attributes)) {
+                return back()->with('status', __('cms::main.error_saving_model'));
+            }
+        }
+
         if (!$model->saveMultiLang($attributes)) {
             return back()->with('status', __('cms::main.error_saving_model'));
         }

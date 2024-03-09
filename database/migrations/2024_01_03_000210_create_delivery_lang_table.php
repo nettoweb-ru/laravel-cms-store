@@ -14,13 +14,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(self::TABLE, function (Blueprint $table) {
-            $table->unsignedBigInteger('delivery_id');
+            $table->unsignedBigInteger('object_id');
             $table->unsignedBigInteger('lang_id');
             $table->string('title');
-            $table->longText('description')->nullable()->default(null);
+            $table->longText('description');
 
-            $table->unique(['delivery_id', 'lang_id']);
-            $table->foreign('delivery_id')->references('id')->on('cms__deliveries')->onDelete('cascade')->onUpdate('cascade');
+            $table->unique(['object_id', 'lang_id']);
+            $table->foreign('object_id')->references('id')->on('cms__deliveries')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('lang_id')->references('id')->on('cms__languages')->onDelete('cascade')->onUpdate('cascade');
         });
     }
