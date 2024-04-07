@@ -1,4 +1,4 @@
-# Currency support fpr nettoweb CMS
+# Online store support for nettoweb CMS
 
 This software provides online store support for nettoweb CMS.
 
