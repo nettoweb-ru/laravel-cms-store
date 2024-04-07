@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Netto\Events\OrderStatusChanged;
 use Netto\Models\Cart;
 use Netto\Models\Currency;
+use Netto\Models\Delivery;
 use Netto\Models\OrderHistory;
 use Netto\Models\OrderStatus;
 use Netto\Services\OrderStatusService;
@@ -22,6 +23,7 @@ use Netto\Services\OrderStatusService;
  * @property Collection $items
  * @property Collection $history
  * @property ?User $user
+ * @property ?Delivery $delivery
  */
 
 class Order extends Model
@@ -59,19 +61,6 @@ class Order extends Model
 
         self::saved(function(Order $model) {
             if ($model->original['status_id'] != $model->status_id) {
-                $sourceCode = null;
-                $targetCode = null;
-
-                foreach (OrderStatusService::getList() as $code => $status) {
-                    if ($status['id'] == $model->original['status_id']) {
-                        $sourceCode = $code;
-                    } elseif ($status['id'] == $model->status_id) {
-                        $targetCode = $code;
-                    }
-                }
-
-                OrderStatusChanged::dispatch($model, $sourceCode, $targetCode);
-
                 $history = new OrderHistory();
                 $history->setAttribute('order_id', $model->id);
                 $history->setAttribute('status_id', $model->status_id);
@@ -127,6 +116,14 @@ class Order extends Model
     public function cart(): HasOne
     {
         return $this->hasOne(Cart::class, 'order_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function delivery(): BelongsTo
+    {
+        return $this->belongsTo(Delivery::class);
     }
 
     /**

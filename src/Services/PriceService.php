@@ -9,7 +9,7 @@ abstract class PriceService
     /**
      * @return int
      */
-    public static function getDefaultCode(): int
+    public static function getDefaultCode(): string
     {
         static $return;
 

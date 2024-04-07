@@ -31,7 +31,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('cost')->default('0.00');
             $table->foreign('cart_id')->references('id')->on('cms__carts')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('merchandise_id')->references('id')->on('cms__merchandise')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('merchandise_id')->references('id')->on('cms__merchandise')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('currency_id')->references('id')->on('cms__currencies')->onDelete('restrict')->onUpdate('cascade');
         });
 

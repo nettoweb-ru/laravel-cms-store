@@ -14,6 +14,7 @@ class DeliveryController extends Abstract\AdminCrudController
 {
     use CrudControllerActions;
 
+    protected bool $autoSort = true;
     protected string $class = WorkModel::class;
     protected string $id = 'delivery';
 

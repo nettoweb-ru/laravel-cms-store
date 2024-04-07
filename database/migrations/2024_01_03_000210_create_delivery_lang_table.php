@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('object_id');
             $table->unsignedBigInteger('lang_id');
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable()->default(null);
 
             $table->unique(['object_id', 'lang_id']);
             $table->foreign('object_id')->references('id')->on('cms__deliveries')->onDelete('cascade')->onUpdate('cascade');

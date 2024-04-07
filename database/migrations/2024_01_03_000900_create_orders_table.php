@@ -11,6 +11,7 @@ return new class extends Migration
     private const UNSIGNED_DECIMAL = [
         'total',
         'volume',
+        'delivery_cost',
     ];
 
     /**
@@ -26,6 +27,8 @@ return new class extends Migration
             $table->decimal('total')->default('0.00');
             $table->unsignedBigInteger('currency_id');
             $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('delivery_id');
+            $table->decimal('delivery_cost')->default('0.00');
             $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->enum('is_locked', ['0', '1'])->default('0');
             $table->decimal('volume', 16,8)->default('0.00000000');
@@ -33,6 +36,7 @@ return new class extends Migration
             $table->foreign('currency_id')->references('id')->on('cms__currencies')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('status_id')->references('id')->on('cms__order_statuses')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('delivery_id')->references('id')->on('cms__deliveries')->onDelete('restrict')->onUpdate('cascade');
         });
 
         foreach (self::UNSIGNED_DECIMAL as $item) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Netto\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\GroupRequest as WorkRequest;
+use App\Http\Requests\Admin\GroupRequest as WorkRequest;
 use App\Models\Group as WorkModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerGroupActions;
+use Netto\Http\Controllers\Abstract;
 
 class GroupController extends Abstract\AdminCrudController
 {
@@ -76,15 +77,11 @@ class GroupController extends Abstract\AdminCrudController
         'edit' => ['group_tab'],
     ];
 
-    protected array $sheets = [
-        'edit' => ['group_sheet'],
-    ];
-
     protected string $title = 'cms-store::main.list_merchandise';
 
     protected array $view = [
         'index' => 'cms-store::merchandise.index',
-        'edit' => 'cms-store::merchandise.group'
+        'edit' => 'admin.merchandise.group'
     ];
 
     /**
@@ -99,7 +96,10 @@ class GroupController extends Abstract\AdminCrudController
         $object->setAttribute('parent_id', $parentId);
 
         $this->setRouteParams($parentId);
-        $this->addCrumbIndex();
+        $this->crumbs[] = [
+            'title' => __($this->title),
+            'link' => route(...$this->route['index']),
+        ];
 
         if ($parentId) {
             $this->addCrumbParent($parentId);
@@ -139,7 +139,10 @@ class GroupController extends Abstract\AdminCrudController
         ]);
 
         $this->setRouteParams($object->parent_id);
-        $this->addCrumbIndex();
+        $this->crumbs[] = [
+            'title' => __($this->title),
+            'link' => route('admin.group.index'),
+        ];
 
         if ($object->parent_id) {
             $this->addCrumbParent($object->parent_id);

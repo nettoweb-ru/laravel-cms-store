@@ -44,6 +44,6 @@ class CartItem extends Model
      */
     public function merchandise(): BelongsTo
     {
-        return $this->belongsTo(Merchandise::class);
+        return $this->belongsTo(Merchandise::class)->with('costs');
     }
 }

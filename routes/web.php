@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Netto\Http\Controllers\DeliveryController;
-use Netto\Http\Controllers\GroupController;
-use Netto\Http\Controllers\MerchandiseController;
-use Netto\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\MerchandiseController;
+use App\Http\Controllers\Admin\OrderController;
 use Netto\Http\Controllers\OrderStatusController;
 use Netto\Http\Controllers\PriceController;
 

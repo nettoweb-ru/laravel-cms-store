@@ -19,10 +19,8 @@ class StoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../stub/app/Http/Requests' => app_path('Http/Requests'),
-                __DIR__.'/../stub/app/Models' => app_path('Models'),
-                __DIR__.'/../stub/app/Listeners' => app_path('Listeners'),
+            $this->commands([
+                Console\InstallStoreCommand::class,
             ]);
         }
 

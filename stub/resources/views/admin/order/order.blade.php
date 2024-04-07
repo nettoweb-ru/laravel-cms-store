@@ -9,7 +9,6 @@
                                         :label="__('cms-store::main.attr_weight')" :value="old('weight', $object->weight)" disabled />
                     <x-cms::form.string name="volume" type="text" width="3" maxlength="17"
                                         :label="__('cms-store::main.attr_volume')" :value="old('volume', $object->volume)" disabled />
-                    <x-cms::form.select name="user_id" :options="$reference['user']" :label="__('cms::main.attr_user')" :value="old('user_id', $object->user_id)" disabled/>
                 </x-slot>
             </x-cms-form>
         </x-slot>
@@ -34,6 +33,13 @@
                         <td class="anti-align"><span class="text">{{ format_currency($item->cost, $item->currency->slug) }}</span></td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td><span class="text">{{ $object->delivery->name }}</span></td>
+                    <td><span class="text">{{ $object->delivery->slug }}</span></td>
+                    <td class="anti-align"><span class="text">{{ format_currency($object->delivery_cost, $object->currency->slug) }}</span></td>
+                    <td class="anti-align"><span class="text">1</span></td>
+                    <td class="anti-align"><span class="text">{{ format_currency($object->delivery_cost, $object->currency->slug) }}</span></td>
+                </tr>
                 <tr class="strong">
                     <td colspan="4"><span class="text">{{ __('cms-store::main.attr_total') }}</span></td>
                     <td class="anti-align"><span class="text">{{ format_currency($object->total, $object->currency->slug) }}</span></td>

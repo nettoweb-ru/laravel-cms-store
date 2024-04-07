@@ -1,14 +1,16 @@
 <?php
 
-namespace Netto\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\OrderRequest as WorkRequest;
+use App\Models\Order as WorkModel;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\OrderRequest as WorkRequest;
-use App\Models\Order as WorkModel;
+use Netto\Models\Delivery;
 use Netto\Models\OrderStatus;
 use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerActions;
+use Netto\Http\Controllers\Abstract;
 
 class OrderController extends Abstract\AdminCrudController
 {
@@ -82,7 +84,7 @@ class OrderController extends Abstract\AdminCrudController
 
     protected array $view = [
         'index' => 'cms-store::order.index',
-        'edit' => 'cms-store::order.order'
+        'edit' => 'admin.order.order'
     ];
 
     /**
@@ -127,6 +129,7 @@ class OrderController extends Abstract\AdminCrudController
         return [
             'status' => CmsService::getModelLabels(OrderStatus::class),
             'user' => CmsService::getModelLabels(User::class, 'name', true),
+            'delivery' => CmsService::getModelLabels(Delivery::class)
         ];
     }
 }

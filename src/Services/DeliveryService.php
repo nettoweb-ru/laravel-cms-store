@@ -17,14 +17,14 @@ abstract class DeliveryService
         $return = [];
 
         $cart = CartService::get();
-        $builder = Delivery::select(['id', 'currency_id', 'cost'])->orderBy('sort')->with(['translated', 'currency', 'roles'])->where('is_active', '1');
+        $builder = Delivery::orderBy('sort')->with(['translated', 'currency', 'roles'])->where('is_active', '1');
 
         if ($total = $cart->getTotal()) {
             $builder->where(function(Builder $builder) use ($total) {
                 $builder->where('total_min', '<=', $total);
             });
             $builder->where(function(Builder $builder) use ($total) {
-                $builder->where('total_max', '>=', $total);
+                $builder->where('total_max', '>', $total);
                 $builder->orWhere('total_max', 0);
             });
         }
@@ -34,7 +34,7 @@ abstract class DeliveryService
                 $builder->where('volume_min', '<=', $volume);
             });
             $builder->where(function(Builder $builder) use ($volume) {
-                $builder->where('volume_max', '>=', $volume);
+                $builder->where('volume_max', '>', $volume);
                 $builder->orWhere('volume_max', 0);
             });
         }
@@ -44,7 +44,7 @@ abstract class DeliveryService
                 $builder->where('weight_min', '<=', $weight);
             });
             $builder->where(function(Builder $builder) use ($weight) {
-                $builder->where('weight_max', '>=', $weight);
+                $builder->where('weight_max', '>', $weight);
                 $builder->orWhere('weight_max', 0);
             });
         }
@@ -64,8 +64,11 @@ abstract class DeliveryService
             }
 
             $return[$item->id] = [
+                'id' => $item->id,
                 'name' => $item->getMultiLangAttributeValue('title', $lang),
-                'cost' => ($item->cost > 0) ? format_currency($item->cost, $item->currency->slug) : '',
+                'cost' => $item->cost,
+                'currency' => $item->currency->slug,
+                'description' => $item->getMultiLangAttributeValue('description', $lang),
             ];
         }
 

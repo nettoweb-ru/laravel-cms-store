@@ -1,8 +1,8 @@
 <?php
 
-namespace Netto\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\MerchandiseRequest as WorkRequest;
+use App\Http\Requests\Admin\MerchandiseRequest as WorkRequest;
 use App\Models\Group;
 use App\Models\Merchandise as WorkModel;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +16,7 @@ use Netto\Services\CurrencyService;
 use Netto\Services\GroupService;
 use Netto\Services\PriceService;
 use Netto\Traits\CrudControllerGroupActions;
+use Netto\Http\Controllers\Abstract;
 
 class MerchandiseController extends Abstract\AdminCrudController
 {
@@ -86,7 +87,7 @@ class MerchandiseController extends Abstract\AdminCrudController
     protected string $title = 'cms-store::main.list_merchandise';
 
     protected array $view = [
-        'edit' => 'cms-store::merchandise.merchandise'
+        'edit' => 'admin.merchandise.merchandise'
     ];
 
     /**
@@ -190,7 +191,7 @@ class MerchandiseController extends Abstract\AdminCrudController
     {
         /** @var WorkModel $object */
         $object = $this->getObject($this->class);
-        $this->setRouteParams($formRequest->get('parent'));
+        $this->setRouteParams(request()->get('parent'));
 
         return $this->_save($formRequest, $object);
     }
@@ -209,7 +210,7 @@ class MerchandiseController extends Abstract\AdminCrudController
                 'value' => $id,
             ],
         ]);
-        $this->setRouteParams($object->parent_id);
+        $this->setRouteParams(request()->get('parent'));
 
         return $this->_save($formRequest, $object);
     }
@@ -240,8 +241,18 @@ class MerchandiseController extends Abstract\AdminCrudController
             }
         }
 
-        if (!$model->saveMultiLang($attributes)) {
-            return back()->with('status', __('cms::main.error_saving_model'));
+        if (method_exists($model, 'saveMultiLang')) {
+            if (!$model->saveMultiLang($attributes)) {
+                return back()->with('status', __('cms::main.error_saving_model'));
+            }
+        } else {
+            foreach ($attributes as $key => $value) {
+                $model->setAttribute($key, $value);
+            }
+
+            if (!$model->save()) {
+                return back()->with('status', __('cms::main.error_saving_model'));
+            }
         }
 
         foreach ($this->sync as $item) {

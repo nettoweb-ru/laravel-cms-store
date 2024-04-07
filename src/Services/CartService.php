@@ -6,6 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Netto\Models\Cart;
 use Netto\Models\CartItem;
 use Netto\Models\Delivery;
@@ -71,15 +72,24 @@ abstract class CartService
             $cartItem = new CartItem();
             $cartItem->setAttribute('cart_id', $cart->id);
             $cartItem->setAttribute('merchandise_id', $merchandise->id);
-            $cartItem->setAttribute('name', $merchandise->getMultiLangAttributeValue('title', app()->getLocale()));
-            $cartItem->setAttribute('slug', $merchandise->slug);
             $cartItem->setAttribute('quantity', $quantity);
+            $cartItem->setAttribute('currency_id', $cost->currency_id);
+            $cartItem->setAttribute('price', $cost->value);
         } else {
+            if ($cartItem->currency_id != $cost->currency_id) {
+                return false;
+            }
             $cartItem->setAttribute('quantity', ($cartItem->quantity + $quantity));
         }
 
-        $cartItem->setAttribute('currency_id', $cost->currency_id);
-        $cartItem->setAttribute('price', $cost->value);
+        if (method_exists($merchandise, 'getMultiLangAttributeValue')) {
+            $name = $merchandise->getMultiLangAttributeValue('title', app()->getLocale());
+        } else {
+            $name = $merchandise->name;
+        }
+        $cartItem->setAttribute('name', $name);
+        $cartItem->setAttribute('slug', $merchandise->slug);
+
         $cartItem->setAttribute('cost', ($cartItem->price * $cartItem->quantity));
 
         if (!$cartItem->save()) {
@@ -96,10 +106,11 @@ abstract class CartService
     }
 
     /**
+     * @param array $fields
      * @param string|null $currencyCode
-     * @return bool
+     * @return bool|Order
      */
-    public static function checkout(?string $currencyCode = null): bool
+    public static function checkout(array $fields = [], ?string $currencyCode = null): bool|Order
     {
         $cart = self::get();
 
@@ -113,8 +124,8 @@ abstract class CartService
         }
 
         $currencies = CurrencyService::getList();
-
         $order = new Order();
+
         $order->status_id = OrderStatusService::getDefaultId();
         $order->total = $total;
         $order->currency_id = $currencies[$currencyCode]['id'];
@@ -125,6 +136,10 @@ abstract class CartService
             /** @var User $user */
             $user = Auth::getUser();
             $order->user_id = $user->id;
+        }
+
+        foreach ($fields as $key => $value) {
+            $order->setAttribute($key, $value);
         }
 
         if (!$order->save()) {
@@ -139,16 +154,8 @@ abstract class CartService
             return false;
         }
 
-        foreach ($cart->items->all() as $item) {
-            /** @var CartItem $item */
-            $item->setAttribute('merchandise_id', null);
-            if (!$item->save()) {
-                return false;
-            }
-        }
-
         self::$cart = self::create();
-        return true;
+        return $order;
     }
 
     /**
@@ -169,29 +176,6 @@ abstract class CartService
     }
 
     /**
-     * @param int $deliveryId
-     * @return bool
-     */
-    public static function delivery(int $deliveryId): bool
-    {
-        /** @var Delivery $delivery */
-        $delivery = Delivery::where('id', $deliveryId)->get()->find($deliveryId);
-        if (empty($delivery)) {
-            return false;
-        }
-
-        $cart = self::get();
-        $cartItem = new CartItem();
-        $cartItem->setAttribute('cart_id', $cart->id);
-        $cartItem->setAttribute('name', $delivery->name);
-        $cartItem->setAttribute('price', $delivery->cost);
-        $cartItem->setAttribute('currency_id', $delivery->currency_id);
-        $cartItem->setAttribute('cost', $delivery->cost);
-
-        return $cartItem->save();
-    }
-
-    /**
      * @return Cart
      */
     public static function get(): Cart
@@ -207,7 +191,6 @@ abstract class CartService
      * @param int $cartItemId
      * @param int|null $quantity
      * @return bool
-     * @throws Exception
      */
     public static function remove(int $cartItemId, ?int $quantity = null): bool
     {
@@ -238,6 +221,8 @@ abstract class CartService
 
         if ($quantityNew > 0) {
             $cartItem->setAttribute('quantity', $quantityNew);
+            $cartItem->setAttribute('cost', ($cartItem->price * $quantityNew));
+
             if (!$cartItem->save()) {
                 return false;
             }
