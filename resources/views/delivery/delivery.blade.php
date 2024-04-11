@@ -5,7 +5,7 @@
                                 :label="__('cms::main.attr_sort')" :value="old('sort', $object->sort)"
                                 :messages="$errors->get('sort')" />
             <x-cms::form.string name="title" type="text" width="5" maxlength="255"
-                                :label="__('cms::main.attr_name')"
+                                :label="__('cms::main.attr_name')" transliterate="{{ $object->exists ? '' : 'slug' }}"
                                 :value="$object->getMultiLangOldValue('title')"
                                 :messages="$object->getMultiLangInputErrors($errors, 'title')" required
                                 multilang autofocus />

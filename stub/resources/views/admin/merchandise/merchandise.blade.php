@@ -8,7 +8,7 @@
                                 :messages="$errors->get('sort')" />
             <x-cms::form.string name="name" type="text" width="11" maxlength="255" :label="__('cms::main.attr_name')"
                                 :value="old('name', $object->name)"
-                                :messages="$errors->get('name')" required autofocus />
+                                :messages="$errors->get('name')" transliterate="{{ $object->exists ? '' : 'slug' }}" required autofocus />
             <x-cms::form.datetime name="created_at" width="3" :label="__('cms::main.attr_created_at')"
                                   :value="old('created_at', $object->created_at)" disabled/>
             <x-cms::form.datetime name="updated_at" width="3" :label="__('cms::main.attr_updated_at')"

@@ -1,6 +1,5 @@
 {
   "name": "nettoweb/laravel-cms-store",
-"version": "1.0",
   "description": "Online store for Nettoweb content management system",
   "type": "library",
   "license": "MIT",

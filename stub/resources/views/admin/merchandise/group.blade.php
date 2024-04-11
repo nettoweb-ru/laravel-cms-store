@@ -10,7 +10,7 @@
                                         :messages="$errors->get('sort')" />
                     <x-cms::form.string name="name" type="text" width="5" maxlength="255" :label="__('cms::main.attr_name')"
                                         :value="old('name', $object->name)"
-                                        :messages="$errors->get('name')" required autofocus />
+                                        :messages="$errors->get('name')" transliterate="{{ $object->exists ? '' : 'slug' }}" required autofocus />
                     <x-cms::form.string name="slug" type="text" width="3" maxlength="255"
                                         :label="__('cms::main.attr_slug')" :value="old('slug', $object->slug)"
                                         :messages="$errors->get('slug')" required/>
