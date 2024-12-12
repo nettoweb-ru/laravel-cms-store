@@ -36,12 +36,6 @@ class GroupController extends Abstract\AdminCrudController
                 'width' => 20
             ],
         ],
-        'params' => [
-            'page' => 1,
-            'perPage' => 10,
-            'sort' => 'sort',
-            'sortDir' => 'asc',
-        ],
         'relations' => [],
         'select' => [
             'id',
@@ -71,10 +65,6 @@ class GroupController extends Abstract\AdminCrudController
         'store' => 'admin.group.store',
         'update' => 'admin.group.update',
         'toggle' => 'admin.group.toggle',
-    ];
-
-    protected array $tabs = [
-        'edit' => ['group_tab'],
     ];
 
     protected string $title = 'cms-store::main.list_merchandise';

@@ -42,12 +42,6 @@ class OrderController extends Abstract\AdminCrudController
                 'width' => 20
             ],
         ],
-        'params' => [
-            'page' => 1,
-            'perPage' => 10,
-            'sort' => 'created_at',
-            'sortDir' => 'desc',
-        ],
         'relations' => ['status', 'currency', 'user'],
         'select' => [
             'id',
@@ -74,10 +68,6 @@ class OrderController extends Abstract\AdminCrudController
         'edit' => 'admin.order.edit',
         'store' => 'admin.order.store',
         'update' => 'admin.order.update',
-    ];
-
-    protected array $tabs = [
-        'edit' => ['order_tab'],
     ];
 
     protected string $title = 'cms-store::main.list_order';

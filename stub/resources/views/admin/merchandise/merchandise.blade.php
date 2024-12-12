@@ -1,7 +1,7 @@
 <x-cms::layout.admin :title="$title" :chain="$chain" :header="$header">
     <x-cms-form id="merchandise" :url="$url" :method="$method" :objectId="$object->id"
                 :sheets="[1 => 'cms::main.general_properties_common', 2 => 'cms-store::main.list_price', 3 => 'cms-store::main.list_group']"
-                :sheet="$sheets['merchandise_sheet']" :conditions="[2 => !empty($costs), 3 => !empty($reference['group'])]">
+                :conditions="[2 => !empty($costs), 3 => !empty($reference['group'])]">
         <x-slot name="sheet1">
             <x-cms::form.string name="sort" type="text" width="1" maxlength="8"
                                 :label="__('cms::main.attr_sort')" :value="old('sort', $object->sort)"

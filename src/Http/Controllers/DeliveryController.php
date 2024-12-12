@@ -37,12 +37,6 @@ class DeliveryController extends Abstract\AdminCrudController
                 'width' => 20
             ],
         ],
-        'params' => [
-            'page' => 1,
-            'perPage' => 10,
-            'sort' => 'sort',
-            'sortDir' => 'asc',
-        ],
         'relations' => ['currency'],
         'select' => [
             'id',

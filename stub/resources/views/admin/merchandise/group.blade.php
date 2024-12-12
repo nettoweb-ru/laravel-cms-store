@@ -1,5 +1,5 @@
 <x-cms::layout.admin :title="$title" :chain="$chain" :header="$header">
-    <x-cms::tabs id="group_tab" :current="$tabs['group_tab']"
+    <x-cms::tabs id="group_tab"
                  :tabs="[1 => 'cms::main.general_properties', 2 => 'cms-store::main.list_subgroup', 3 => 'cms-store::main.list_merchandise']"
                  :class="[1 => 'gray']" :conditions="[2 => !empty($object->id), 3 => !empty($object->id)]">
         <x-slot name="tab1">
@@ -32,10 +32,10 @@
         </x-slot>
         @if ($object->id)
             <x-slot name="tab2">
-                <x-cms::list :url="route('admin.group.list', ['parent' => $object->id], false)"/>
+                <x-cms::list :url="route('admin.group.list', ['parent' => $object->id], false)" id="store-group-{{ $object->id }}"/>
             </x-slot>
             <x-slot name="tab3">
-                <x-cms::list :url="route('admin.merchandise.list', ['parent' => $object->id], false)"/>
+                <x-cms::list :url="route('admin.merchandise.list', ['parent' => $object->id], false)" id="store-merchandise-{{ $object->id }}" />
             </x-slot>
         @endif
     </x-cms::tabs>

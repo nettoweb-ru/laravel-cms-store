@@ -1,5 +1,5 @@
 <x-cms::layout.admin :title="$title" :chain="$chain" :header="$header">
-    <x-cms::tabs id="order_tab" :current="$tabs['order_tab']" :tabs="[1 => 'cms::main.general_properties', 2 => 'cms-store::main.list_order_item', 3 => 'cms-store::main.order_history']">
+    <x-cms::tabs id="order_tab" :tabs="[1 => 'cms::main.general_properties', 2 => 'cms-store::main.list_order_item', 3 => 'cms-store::main.order_history']">
         <x-slot name="tab1">
             <x-cms-form :url="$url" :method="$method" :objectId="$object->id" :apply="!$object->is_locked" :save="!$object->is_locked">
                 <x-slot name="sheet1">

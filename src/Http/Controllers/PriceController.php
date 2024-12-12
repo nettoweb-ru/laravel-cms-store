@@ -31,12 +31,6 @@ class PriceController extends Abstract\AdminCrudController
                 'width' => 10
             ],
         ],
-        'params' => [
-            'page' => 1,
-            'perPage' => 10,
-            'sort' => 'name',
-            'sortDir' => 'asc',
-        ],
         'relations' => [],
         'select' => [
             'id',
