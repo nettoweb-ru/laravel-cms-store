@@ -19,9 +19,11 @@ class StoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\InstallStoreCommand::class,
-            ]);
+            $this->publishes([
+                __DIR__.'/../config/cms-store.php' => config_path('cms-store.php'),
+                __DIR__.'/../stub/app' => app_path(),
+                __DIR__.'/../stub/resources/views/admin' => resource_path('views/admin'),
+            ], 'nettoweb-laravel-cms');
         }
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
