@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerGroupActions;
 use Netto\Http\Controllers\Abstract;
 
@@ -198,7 +197,7 @@ class GroupController extends Abstract\AdminCrudController
      */
     protected function getAutoSort(Model $object): int
     {
-        return CmsService::getModelSort($object, [
+        return get_next_sort($object, [
             'parent_id' => [
                 'operator' => '=',
                 'value' => $object->parent_id,
@@ -227,7 +226,7 @@ class GroupController extends Abstract\AdminCrudController
     protected function getReference($object): array
     {
         return [
-            'boolean' => CmsService::getBooleanLabels(),
+            'boolean' => get_labels_boolean(),
         ];
     }
 

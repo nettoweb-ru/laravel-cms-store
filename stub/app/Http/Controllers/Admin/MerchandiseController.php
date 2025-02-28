@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Netto\Models\Cost;
 use Netto\Models\Currency;
-use Netto\Services\CmsService;
 use Netto\Services\CurrencyService;
 use Netto\Services\GroupService;
 use Netto\Services\PriceService;
@@ -275,7 +274,7 @@ class MerchandiseController extends Abstract\AdminCrudController
             ];
         }
 
-        return CmsService::getModelSort($object, $filter);
+        return get_next_sort($object, $filter);
     }
 
     /**
@@ -324,8 +323,8 @@ class MerchandiseController extends Abstract\AdminCrudController
     protected function getReference($object): array
     {
         return [
-            'boolean' => CmsService::getBooleanLabels(),
-            'currency' => CmsService::getModelLabels(Currency::class),
+            'boolean' => get_labels_boolean(),
+            'currency' => get_labels(Currency::class),
             'group' => GroupService::getLabels(null, false),
         ];
     }

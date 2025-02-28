@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\OrderController;
 use Netto\Http\Controllers\OrderStatusController;
 use Netto\Http\Controllers\PriceController;
 
-Route::prefix(CMS_LOCATION)->name('admin.')->group(function() {
+Route::prefix(config('cms.location', 'admin'))->name('admin.')->group(function() {
     Route::middleware(['admin', 'verified'])->group(function() {
         Route::resource('store/status', OrderStatusController::class)->except(['toggle', 'index']);
         Route::resource('store/price', PriceController::class)->except(['toggle']);

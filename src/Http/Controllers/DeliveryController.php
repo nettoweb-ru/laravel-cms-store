@@ -7,7 +7,6 @@ use Netto\Http\Requests\DeliveryRequest as WorkRequest;
 use Netto\Models\Currency;
 use Netto\Models\Delivery as WorkModel;
 use Netto\Models\Role;
-use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerActions;
 
 class DeliveryController extends Abstract\AdminCrudController
@@ -122,9 +121,9 @@ class DeliveryController extends Abstract\AdminCrudController
     protected function getReference($object): array
     {
         return [
-            'boolean' => CmsService::getBooleanLabels(),
-            'currency' => CmsService::getModelLabels(Currency::class),
-            'role' => CmsService::getModelLabels(Role::class),
+            'boolean' => get_labels_boolean(),
+            'currency' => get_labels(Currency::class),
+            'role' => get_labels(Role::class),
         ];
     }
 }

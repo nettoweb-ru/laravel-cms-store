@@ -29,7 +29,7 @@
                         <td><span class="text">{{ $item->name }}</span></td>
                         <td><span class="text">{{ $item->slug }}</span></td>
                         <td class="anti-align"><span class="text">{{ format_currency($item->price, $item->currency->slug) }}</span></td>
-                        <td class="anti-align"><span class="text">{{ $item->quantity }}</span></td>
+                        <td class="anti-align"><span class="text">{{ format_number($item->quantity) }}</span></td>
                         <td class="anti-align"><span class="text">{{ format_currency($item->cost, $item->currency->slug) }}</span></td>
                     </tr>
                 @endforeach
@@ -37,7 +37,7 @@
                     <td><span class="text">{{ $object->delivery->name }}</span></td>
                     <td><span class="text">{{ $object->delivery->slug }}</span></td>
                     <td class="anti-align"><span class="text">{{ format_currency($object->delivery_cost, $object->currency->slug) }}</span></td>
-                    <td class="anti-align"><span class="text">1</span></td>
+                    <td class="anti-align"><span class="text">{{ format_number(1) }}</span></td>
                     <td class="anti-align"><span class="text">{{ format_currency($object->delivery_cost, $object->currency->slug) }}</span></td>
                 </tr>
                 <tr class="strong">

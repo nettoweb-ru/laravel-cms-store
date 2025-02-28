@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Netto\Models\Delivery;
 use Netto\Models\OrderStatus;
-use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerActions;
 use Netto\Http\Controllers\Abstract;
 
@@ -117,9 +116,9 @@ class OrderController extends Abstract\AdminCrudController
     protected function getReference($object): array
     {
         return [
-            'status' => CmsService::getModelLabels(OrderStatus::class),
-            'user' => CmsService::getModelLabels(User::class, 'name', true),
-            'delivery' => CmsService::getModelLabels(Delivery::class)
+            'status' => get_labels(OrderStatus::class),
+            'user' => get_labels(User::class, true),
+            'delivery' => get_labels(Delivery::class)
         ];
     }
 }

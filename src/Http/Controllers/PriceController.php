@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Netto\Http\Requests\PriceRequest as WorkRequest;
 use Netto\Models\Price as WorkModel;
 use Netto\Models\Role;
-use Netto\Services\CmsService;
 use Netto\Traits\CrudControllerActions;
 
 class PriceController extends Abstract\AdminCrudController
@@ -109,8 +108,8 @@ class PriceController extends Abstract\AdminCrudController
     protected function getReference($object): array
     {
         return [
-            'boolean' => CmsService::getBooleanLabels(),
-            'role' => CmsService::getModelLabels(Role::class),
+            'boolean' => get_labels_boolean(),
+            'role' => get_labels(Role::class),
         ];
     }
 }
