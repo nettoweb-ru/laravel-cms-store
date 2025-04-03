@@ -16,27 +16,7 @@ class PriceController extends Abstract\AdminCrudController
     protected string $id = 'price';
 
     protected array $list = [
-        'columns' => [
-            'name' => [
-                'title' => 'cms::main.attr_name',
-                'width' => 60
-            ],
-            'slug' => [
-                'title' => 'cms::main.attr_slug',
-                'width' => 30
-            ],
-            'is_default' => [
-                'title' => 'cms::main.attr_is_default',
-                'width' => 10
-            ],
-        ],
         'relations' => [],
-        'select' => [
-            'id',
-            'name',
-            'slug',
-            'is_default',
-        ],
         'title' => 'cms-store::main.list_price',
         'url' => [
             'create',
@@ -86,19 +66,6 @@ class PriceController extends Abstract\AdminCrudController
     public function update(WorkRequest $request, string $id): RedirectResponse
     {
         return $this->_update($request, $id);
-    }
-
-    /**
-     * @param WorkModel $object
-     * @return array
-     */
-    protected function getItem($object): array
-    {
-        return [
-            'name' => $object->name,
-            'slug' => $object->slug,
-            'is_default' => $object->is_default ? __('cms::main.general_yes') : __('cms::main.general_no'),
-        ];
     }
 
     /**

@@ -26,28 +26,7 @@ class MerchandiseController extends Abstract\AdminCrudController
     protected string $id = 'merchandise';
 
     protected array $list = [
-        'columns' => [
-            'sort' => [
-                'title' => 'cms::main.attr_sort',
-                'width' => 5
-            ],
-            'name' => [
-                'title' => 'cms::main.attr_name',
-                'width' => 75
-            ],
-            'slug' => [
-                'title' => 'cms-store::main.attr_vendor_code',
-                'width' => 20
-            ],
-        ],
         'relations' => [],
-        'select' => [
-            'id',
-            'name',
-            'slug',
-            'is_active',
-            'sort',
-        ],
         'title' => 'cms-store::main.list_merchandise',
         'url' => [
             'create',
@@ -300,20 +279,6 @@ class MerchandiseController extends Abstract\AdminCrudController
                 'parameters' => ['group' => $parentId],
             ];
         }
-    }
-
-    /**
-     * @param $object
-     * @return array
-     */
-    protected function getItem($object): array
-    {
-        return [
-            'name' => $object->name,
-            'sort' => $object->sort,
-            'slug' => $object->slug,
-            'is_active' => $object->is_active,
-        ];
     }
 
     /**

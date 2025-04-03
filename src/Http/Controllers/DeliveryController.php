@@ -18,34 +18,7 @@ class DeliveryController extends Abstract\AdminCrudController
     protected string $id = 'delivery';
 
     protected array $list = [
-        'columns' => [
-            'sort' => [
-                'title' => 'cms::main.attr_sort',
-                'width' => 5
-            ],
-            'name' => [
-                'title' => 'cms::main.attr_name',
-                'width' => 55
-            ],
-            'cost' => [
-                'title' => 'cms-store::main.attr_cost',
-                'width' => 20
-            ],
-            'slug' => [
-                'title' => 'cms::main.attr_slug',
-                'width' => 20
-            ],
-        ],
         'relations' => ['currency'],
-        'select' => [
-            'id',
-            'sort',
-            'name',
-            'slug',
-            'cost',
-            'currency_id',
-            'is_active',
-        ],
         'title' => 'cms-store::main.list_delivery',
         'url' => [
             'create',
@@ -105,13 +78,26 @@ class DeliveryController extends Abstract\AdminCrudController
      */
     protected function getItem($object): array
     {
-        return [
-            'sort' => $object->sort,
-            'name' => $object->name,
-            'cost' => format_currency($object->cost, $object->currency->slug),
-            'slug' => $object->slug,
-            'is_active' => $object->is_active,
-        ];
+        $return = parent::getItem($object);
+        if ($object->currency) {
+            foreach (['cost', 'total_min', 'total_max'] as $item) {
+                if (isset($return[$item])) {
+                    $return[$item] = format_currency($return[$item], $object->currency->slug);
+                }
+            }
+
+            if (isset($return['currency_id'])) {
+                $return['currency_id'] = $object->currency->slug;
+            }
+        }
+
+        foreach (['weight_min', 'weight_max', 'volume_min', 'volume_max'] as $item) {
+            if (isset($return[$item])) {
+                $return[$item] = format_number($return[$item]);
+            }
+        }
+
+        return $return;
     }
 
     /**

@@ -15,36 +15,7 @@ class OrderStatusController extends Abstract\AdminCrudController
     protected string $id = 'status';
 
     protected array $list = [
-        'columns' => [
-            'id' => [
-                'title' => 'cms::main.attr_id',
-                'width' => 5
-            ],
-            'name' => [
-                'title' => 'cms::main.attr_name',
-                'width' => 45
-            ],
-            'slug' => [
-                'title' => 'cms::main.attr_slug',
-                'width' => 30
-            ],
-            'is_default' => [
-                'title' => 'cms::main.attr_is_default',
-                'width' => 10
-            ],
-            'is_final' => [
-                'title' => 'cms-store::main.attr_is_final',
-                'width' => 10
-            ],
-        ],
         'relations' => [],
-        'select' => [
-            'id',
-            'name',
-            'slug',
-            'is_default',
-            'is_final',
-        ],
         'title' => 'cms-store::main.list_order_status',
         'url' => [
             'create',
@@ -89,20 +60,6 @@ class OrderStatusController extends Abstract\AdminCrudController
     public function update(WorkRequest $request, string $id): RedirectResponse
     {
         return $this->_update($request, $id);
-    }
-
-    /**
-     * @param WorkModel $object
-     * @return array
-     */
-    protected function getItem($object): array
-    {
-        return [
-            'name' => $object->name,
-            'slug' => $object->slug,
-            'is_default' => $object->is_default ? __('cms::main.general_yes') : __('cms::main.general_no'),
-            'is_final' => $object->is_final ? __('cms::main.general_yes') : __('cms::main.general_no'),
-        ];
     }
 
     /**

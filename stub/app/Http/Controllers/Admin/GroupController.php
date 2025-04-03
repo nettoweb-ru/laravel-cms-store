@@ -21,28 +21,7 @@ class GroupController extends Abstract\AdminCrudController
     protected string $id = 'group';
 
     protected array $list = [
-        'columns' => [
-            'sort' => [
-                'title' => 'cms::main.attr_sort',
-                'width' => 5
-            ],
-            'name' => [
-                'title' => 'cms::main.attr_name',
-                'width' => 75
-            ],
-            'slug' => [
-                'title' => 'cms::main.attr_slug',
-                'width' => 20
-            ],
-        ],
         'relations' => [],
-        'select' => [
-            'id',
-            'sort',
-            'name',
-            'slug',
-            'is_active',
-        ],
         'title' => 'cms-store::main.list_group',
         'url' => [
             'create',
@@ -203,20 +182,6 @@ class GroupController extends Abstract\AdminCrudController
                 'value' => $object->parent_id,
             ]
         ]);
-    }
-
-    /**
-     * @param $object
-     * @return array
-     */
-    protected function getItem($object): array
-    {
-        return [
-            'name' => $object->name,
-            'sort' => $object->sort,
-            'slug' => $object->slug,
-            'is_active' => $object->is_active,
-        ];
     }
 
     /**

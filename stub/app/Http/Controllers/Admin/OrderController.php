@@ -19,37 +19,7 @@ class OrderController extends Abstract\AdminCrudController
     protected string $id = 'order';
 
     protected array $list = [
-        'columns' => [
-            'id' => [
-                'title' => 'cms-store::main.attr_order_number',
-                'width' => 5
-            ],
-            'created_at' => [
-                'title' => 'cms::main.attr_created_at',
-                'width' => 25
-            ],
-            'total' => [
-                'title' => 'cms-store::main.attr_total',
-                'width' => 20
-            ],
-            'user_id' => [
-                'title' => 'cms::main.attr_user',
-                'width' => 30
-            ],
-            'status_id' => [
-                'title' => 'cms-store::main.attr_status_id',
-                'width' => 20
-            ],
-        ],
         'relations' => ['status', 'currency', 'user'],
-        'select' => [
-            'id',
-            'created_at',
-            'total',
-            'currency_id',
-            'status_id',
-            'user_id',
-        ],
         'title' => 'cms-store::main.list_order',
         'url' => [
             'delete',
@@ -101,12 +71,21 @@ class OrderController extends Abstract\AdminCrudController
      */
     protected function getItem($object): array
     {
-        return [
-            'created_at' => format_date($object->created_at),
-            'total' => format_currency($object->total, $object->currency->slug),
-            'status_id' => "[{$object->status_id}] {$object->status->name}",
-            'user_id' => $object->user ? "[{$object->user_id}] {$object->user->name}" : '',
-        ];
+        $return = parent::getItem($object);
+
+        if ($object->currency && isset($return['total'])) {
+            $return['total'] = format_currency($object->total, $object->currency->slug);
+        }
+
+        if (isset($return['status_id'])) {
+            $return['status_id'] = "[{$object->status_id}] {$object->status->name}";
+        }
+
+        if (isset($return['user_id'])) {
+            $return['user_id'] = $object->user ? "[{$object->user_id}] {$object->user->name}" : '';
+        }
+
+        return $return;
     }
 
     /**

@@ -18,8 +18,8 @@
     }
   ],
   "require": {
-      "nettoweb/laravel-cms": "^1.2",
-      "nettoweb/laravel-cms-currency": "^1.2"
+      "nettoweb/laravel-cms": "^1.2.3",
+      "nettoweb/laravel-cms-currency": "^1.2.3"
   },
   "require-dev": {
     "orchestra/testbench": "^8.0",

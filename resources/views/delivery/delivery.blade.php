@@ -7,7 +7,7 @@
             <x-cms::form.string name="title" type="text" width="5" maxlength="255"
                                 :label="__('cms::main.attr_name')" transliterate="{{ $object->exists ? '' : 'slug' }}"
                                 :value="$object->getMultiLangOldValue('title')"
-                                :messages="$object->getMultiLangInputErrors($errors, 'title')" required
+                                :messages="get_errors_multilang($errors, 'title')" required
                                 multilang autofocus />
             <x-cms::form.string name="slug" type="text" width="3" maxlength="255" :label="__('cms::main.attr_slug')" :value="old('slug', $object->slug)" :messages="$errors->get('slug')" required />
             <x-cms::form.checkbox name="is_active" width="3" type="radio"
@@ -49,7 +49,7 @@
                                 :messages="$errors->get('currency_id')" required/>
             <x-cms::form.editor name="description" height="200" :label="__('cms::main.attr_description')"
                                 :value="$object->getMultiLangOldValue('description')"
-                                :messages="$object->getMultiLangInputErrors($errors, 'description')" multilang/>
+                                :messages="get_errors_multilang($errors, 'description')" multilang/>
             @permission('manage-access')
             <x-cms::form.checkbox name="roles" :label="__('cms::main.list_role')" :value="old('roles', $object->roles->pluck('id')->all())" :options="$reference['role']" :messages="$errors->get('roles')" multiple />
             @endpermission
