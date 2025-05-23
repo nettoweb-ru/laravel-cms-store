@@ -9,9 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Cart
 {
+    /**
+     * @param Request $request
+     * @param Closure $next
+     * @return Response
+     */
     public function handle(Request $request, Closure $next): Response
     {
-        CartService::get();
+        if (!$request->isXmlHttpRequest()) {
+            CartService::init();
+        }
+
         return $next($request);
     }
 }

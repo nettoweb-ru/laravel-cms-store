@@ -1,19 +1,10 @@
 <?php
+
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Netto\Models\OrderStatus;
+use Netto\Http\Requests\Admin\OrderRequest as BaseRequest;
 
-class OrderRequest extends FormRequest
+class OrderRequest extends BaseRequest
 {
-    /**
-     * @return array
-     */
-    public function rules(): array
-    {
-        $class = OrderStatus::class;
-        return [
-            'status_id' => ['required', 'integer', "exists:{$class},id"],
-        ];
-    }
+
 }

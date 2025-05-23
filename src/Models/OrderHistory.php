@@ -2,20 +2,20 @@
 
 namespace Netto\Models;
 
-use App\Models\User;
-use App\Models\Order;
-use Illuminate\Database\Eloquent\Model;
+use Netto\Models\Abstract\Model as BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\{User, Order};
 
 /**
  * @property Order $order
  * @property OrderStatus $status
+ * @property User $user
  */
 
-class OrderHistory extends Model
+class OrderHistory extends BaseModel
 {
     public $timestamps = false;
-    public $table = 'cms__order_history';
+    public $table = 'cms_store__order_history';
 
     /**
      * @return void
@@ -25,7 +25,7 @@ class OrderHistory extends Model
         parent::boot();
 
         self::creating(function(OrderHistory $model) {
-            $model->created_at = date('Y-m-d H:i:s');
+            $model->setAttribute('created_at', date('Y-m-d H:i:s'));
         });
     }
 
@@ -40,16 +40,16 @@ class OrderHistory extends Model
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function status(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(OrderStatus::class, 'status_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function status(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(OrderStatus::class, 'status_id');
+        return $this->belongsTo(User::class);
     }
 }

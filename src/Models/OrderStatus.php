@@ -2,41 +2,27 @@
 
 namespace Netto\Models;
 
-use App\Models\Order;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
-use Netto\Traits\HasDefaultAttribute;
+use Netto\Models\Abstract\Model as BaseModel;
+use Netto\Traits\{HasDefaultAttribute, IsMultiLingual};
 
-class OrderStatus extends Model
+class OrderStatus extends BaseModel
 {
-    use HasDefaultAttribute;
+    use HasDefaultAttribute, IsMultiLingual;
 
     public $timestamps = false;
-    public $table = 'cms__order_statuses';
+    public $table = 'cms_store__order_statuses';
+
+    public array $multiLingual = [
+        'name',
+    ];
+
+    public string $multiLingualClass = OrderStatusLang::class;
 
     protected $casts = [
         'is_default' => 'boolean',
-        'is_final' => 'boolean',
     ];
 
     protected $attributes = [
-        'is_default' => false,
-        'is_final' => false,
+        'is_default' => '0',
     ];
-
-    /**
-     * @return void
-     */
-    public static function boot(): void
-    {
-        parent::boot();
-
-        self::saved(function($model): void {
-            $model->checkSavedDefault();
-        });
-
-        self::deleting(function($model): bool {
-            return $model->checkDeletingDefault();
-        });
-    }
 }

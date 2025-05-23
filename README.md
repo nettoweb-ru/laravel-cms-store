@@ -18,7 +18,7 @@ php artisan migrate
 Publish assets:
 
 ```shell
-php artisan vendor:publish --tag=nettoweb-laravel-cms
+php artisan vendor:publish --tag=nettoweb-laravel-cms-store
 ```
 
 ## Licensing

@@ -1,6 +1,6 @@
 {
   "name": "nettoweb/laravel-cms-store",
-  "description": "Online store for Nettoweb content management system",
+  "description": "\uD83D\uDED2 nettoweb: online store for content management system",
   "type": "library",
   "license": "MIT",
   "autoload": {
@@ -18,12 +18,8 @@
     }
   ],
   "require": {
-      "nettoweb/laravel-cms": "^1.2.3",
-      "nettoweb/laravel-cms-currency": "^1.2.3"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^8.0",
-    "phpunit/phpunit": "^10.5"
+      "nettoweb/laravel-cms": "^2",
+      "nettoweb/laravel-cms-currency": "^2"
   },
   "minimum-stability": "stable",
   "extra": {

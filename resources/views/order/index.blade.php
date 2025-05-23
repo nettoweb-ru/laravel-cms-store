@@ -1,30 +1,42 @@
-<x-cms::layout.admin :title="$title" :chain="$chain">
+<x-cms::layout.admin :head="$head" :url="$url" :chain="$chain">
     <x-cms::list
-        :url="route('admin.order.list', [], false)"
-        id="store-order"
+        id="order"
+        :url="route('admin.store.order.list')"
         :columns="[
-            'id' => __('cms::main.attr_id'),
-            'created_at' => __('cms::main.attr_created_at'),
-            'total' => __('cms-store::main.attr_total'),
-            'user_id' => __('cms::main.attr_user'),
-            'status_id' => __('cms-store::main.attr_status_id'),
-            'currency_id' => __('cms-currency::main.currency'),
-            'is_locked' => __('cms-store::main.attr_is_locked'),
-            'volume' => __('cms-store::main.attr_volume'),
-            'weight' => __('cms-store::main.attr_weight'),
+            'id' => __('main.attr_id'),
+            'created_at' => __('main.attr_created_at'),
+            'total' => __('main.attr_total'),
+            'user.name' => __('main.attr_user'),
+            'status.slug' => __('main.attr_status_id'),
+            'currency.slug' => __('main.currency'),
+            'volume' => __('main.attr_volume'),
+            'weight' => __('main.attr_weight'),
+            'delivery.name' => __('main.attr_delivery_id'),
+            'delivery.cost' => __('main.attr_delivery_cost'),
         ]"
-        :default="['id', 'created_at', 'total', 'user_id', 'status_id']"
+        :default="['id', 'created_at', 'total', 'user.name', 'status.name']"
+        :defaultSort="['created_at' => 'desc']"
+        :title="__('main.list_order')"
+        :actions="[
+            'create' => route('admin.store.order.create'),
+            'delete' => route('admin.store.order.delete'),
+        ]"
     />
     <x-cms::list
-        :url="route('admin.status.list', [], false)"
-        id="store-status"
+        id="status"
+        :url="route('admin.store.status.list')"
         :columns="[
-            'id' => __('cms::main.attr_id'),
-            'name' => __('cms::main.attr_name'),
-            'slug' => __('cms::main.attr_slug'),
-            'is_default' => __('cms::main.attr_is_default'),
-            'is_final' => __('cms-store::main.attr_is_final'),
+            'id' => __('main.attr_id'),
+            'name' => __('main.attr_name'),
+            'slug' => __('main.attr_slug'),
+            'is_default' => __('main.attr_is_default'),
         ]"
         :default="['name']"
+        :defaultSort="['name' => 'asc']"
+        :title="__('main.list_status')"
+        :actions="[
+            'create' => route('admin.store.status.create'),
+            'delete' => route('admin.store.status.delete'),
+        ]"
     />
 </x-cms::layout.admin>

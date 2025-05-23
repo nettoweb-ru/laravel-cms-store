@@ -2,51 +2,29 @@
 
 namespace Netto\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Netto\Traits\HasDefaultAttribute;
+use Netto\Models\Abstract\Model as BaseModel;
+use Netto\Traits\{HasAccessCheck, HasDefaultAttribute, IsMultiLingual};
 
-/**
- * @property Collection $roles
- */
-
-class Price extends Model
+class Price extends BaseModel
 {
-    use HasDefaultAttribute;
+    use HasDefaultAttribute, IsMultiLingual, HasAccessCheck;
 
     public $timestamps = false;
-    public $table = 'cms__prices';
+    public $table = 'cms_store__prices';
+
+    public array $multiLingual = [
+        'name',
+    ];
+
+    public string $multiLingualClass = PriceLang::class;
+    public string $permissionsTable = 'cms_store__prices__permissions';
 
     protected $casts = [
         'is_default' => 'boolean',
     ];
 
     protected $attributes = [
-        'is_default' => false,
+        'is_default' => '0',
+        'sort' => 0,
     ];
-
-    /**
-     * @return void
-     */
-    public static function boot(): void
-    {
-        parent::boot();
-
-        self::saved(function($model): void {
-            $model->checkSavedDefault();
-        });
-
-        self::deleting(function($model): bool {
-            return $model->checkDeletingDefault();
-        });
-    }
-
-    /**
-     * @return BelongsToMany
-     */
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'cms__price__role', 'price_id', 'role_id');
-    }
 }

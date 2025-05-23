@@ -3,10 +3,8 @@
 namespace Netto\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Netto\Services\CurrencyService;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 use App\Models\Order;
 
 /**
@@ -14,27 +12,10 @@ use App\Models\Order;
  * @property Collection $items
  */
 
-class Cart extends Model
+class Cart extends BaseModel
 {
     public $timestamps = false;
-    public $table = 'cms__carts';
-
-    /**
-     * @return void
-     */
-    public static function boot(): void
-    {
-        parent::boot();
-
-        self::creating(function(Cart $cart) {
-            do {
-                $cart->setAttribute('slug', bin2hex(random_bytes(32)));
-                if (count(self::where('slug', $cart->slug)->get()) === 0) {
-                    break;
-                }
-            } while (true);
-        });
-    }
+    public $table = 'cms_store__carts';
 
     /**
      * @return BelongsTo
@@ -49,7 +30,31 @@ class Cart extends Model
      */
     public function items(): HasMany
     {
-        return $this->hasMany(CartItem::class)->orderBy('id')->with(['currency', 'merchandise']);
+        return $this->hasMany(CartItem::class)->orderBy('id')->with('merchandise');
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotal(): float
+    {
+        $return = 0;
+        $currencyCode = find_currency_code($this->getAttribute('currency_id'));
+
+        foreach ($this->items->all() as $item) {
+            /** @var CartItem $item */
+            if ($item->getAttribute('currency_id') == $this->getAttribute('currency_id')) {
+                $return += $item->getAttribute('cost');
+            } else {
+                $return += convert_currency(
+                    $item->getAttribute('cost'),
+                    find_currency_code($item->getAttribute('currency_id')),
+                    $currencyCode
+                );
+            }
+        }
+
+        return $return;
     }
 
     /**
@@ -58,15 +63,9 @@ class Cart extends Model
     public function getVolume(): float
     {
         $return = 0;
-        if (empty($this->items)) {
-            return $return;
-        }
-
-        foreach ($this->items as $item) {
+        foreach ($this->items->all() as $item) {
             /** @var CartItem $item */
-            if ($item->merchandise) {
-                $return += ($item->merchandise->width * $item->merchandise->length * $item->merchandise->height / 1000000000 * $item->quantity);
-            }
+            $return += $item->merchandise->getAttribute('width') * $item->merchandise->getAttribute('length') * $item->merchandise->getAttribute('height') * $item->getAttribute('quantity') / 1000000000;
         }
 
         return $return;
@@ -78,42 +77,9 @@ class Cart extends Model
     public function getWeight(): int
     {
         $return = 0;
-        if (empty($this->items)) {
-            return $return;
-        }
-
-        foreach ($this->items as $item) {
+        foreach ($this->items->all() as $item) {
             /** @var CartItem $item */
-            if ($item->merchandise) {
-                $return += ($item->merchandise->weight * $item->quantity);
-            }
-        }
-
-        return $return;
-    }
-
-    /**
-     * @param string|null $currencyCode
-     * @return float
-     */
-    public function getTotal(?string $currencyCode = null): float
-    {
-        $return = 0;
-        if (empty($this->items)) {
-            return $return;
-        }
-
-        if (is_null($currencyCode)) {
-            $currencyCode = CurrencyService::getDefaultCode();
-        }
-
-        $currencies = CurrencyService::getList();
-        if (!array_key_exists($currencyCode, $currencies)) {
-            return $return;
-        }
-
-        foreach ($this->items as $item) {
-            $return += CurrencyService::convertValue($item->cost, $item->currency->slug, $currencyCode, 2);
+            $return += $item->merchandise->getAttribute('weight') * $item->getAttribute('quantity');
         }
 
         return $return;

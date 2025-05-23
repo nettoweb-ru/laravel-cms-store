@@ -1,20 +1,36 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Netto\Http\Controllers\DeliveryController;
-use App\Http\Controllers\Admin\GroupController;
-use App\Http\Controllers\Admin\MerchandiseController;
-use App\Http\Controllers\Admin\OrderController;
-use Netto\Http\Controllers\OrderStatusController;
-use Netto\Http\Controllers\PriceController;
 
-Route::prefix(config('cms.location', 'admin'))->name('admin.')->group(function() {
-    Route::middleware(['admin', 'verified'])->group(function() {
-        Route::resource('store/status', OrderStatusController::class)->except(['toggle', 'index']);
-        Route::resource('store/price', PriceController::class)->except(['toggle']);
-        Route::resource('store/delivery', DeliveryController::class);
-        Route::resource('store/group', GroupController::class);
-        Route::resource('store/merchandise', MerchandiseController::class)->except(['index']);
-        Route::resource('store/order', OrderController::class)->except(['create', 'toggle']);
+use App\Http\Controllers\Admin\{
+    SectionController,
+    MerchandiseController,
+    OrderController
+};
+use Netto\Http\Controllers\Admin\{
+    DeliveryController,
+    OrderStatusController,
+    PriceController
+};
+
+Route::prefix(config('cms.location'))->name('admin.')->group(function() {
+    Route::middleware(['admin', 'verified'])->prefix('store')->name('store.')->group(function() {
+        Route::middleware('permission:admin-store-prices')->group(function() {
+            Route::resource('price', PriceController::class)->except(['toggle']);
+        });
+
+        Route::middleware('permission:admin-store-deliveries')->group(function() {
+            Route::resource('delivery', DeliveryController::class);
+        });
+
+        Route::middleware('permission:admin-store-merchandise')->group(function() {
+            Route::resource('section', SectionController::class)->except(['index']);
+            Route::resource('merchandise', MerchandiseController::class);
+        });
+
+        Route::middleware('permission:admin-store-orders')->group(function() {
+            Route::resource('order', OrderController::class)->except(['toggle']);
+            Route::resource('status', OrderStatusController::class)->except(['toggle', 'index']);
+        });
     });
 });
