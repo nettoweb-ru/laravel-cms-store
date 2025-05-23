@@ -134,6 +134,22 @@ abstract class OrderController extends BaseController
             $item['status.slug'] = "[{$item['status.slug']}] ".get_order_status_list()[$item['status.slug']]['name'];
         }
 
+        if (array_key_exists('total', $item)) {
+            if (array_key_exists('currency.slug', $item)) {
+                $item['total'] = format_currency($item['total'], $item['currency.slug']);
+            } else {
+                $item['total'] = format_number($item['total']);
+            }
+        }
+
+        if (array_key_exists('delivery.cost', $item)) {
+            if (array_key_exists('currency.slug', $item)) {
+                $item['delivery.cost'] = format_currency($item['delivery.cost'], $item['currency.slug']);
+            } else {
+                $item['delivery.cost'] = format_number($item['delivery.cost']);
+            }
+        }
+
         if (array_key_exists('currency.slug', $item)) {
             $item['currency.slug'] = get_currency_symbol($item['currency.slug']);
         }
