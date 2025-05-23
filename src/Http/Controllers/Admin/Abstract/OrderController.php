@@ -142,11 +142,11 @@ abstract class OrderController extends BaseController
             }
         }
 
-        if (array_key_exists('delivery.cost', $item)) {
+        if (array_key_exists('delivery_cost', $item)) {
             if (array_key_exists('currency.slug', $item)) {
-                $item['delivery.cost'] = format_currency($item['delivery.cost'], $item['currency.slug']);
+                $item['delivery_cost'] = format_currency($item['delivery_cost'], $item['currency.slug']);
             } else {
-                $item['delivery.cost'] = format_number($item['delivery.cost']);
+                $item['delivery_cost'] = format_number($item['delivery_cost']);
             }
         }
 

@@ -12,7 +12,7 @@
             'volume' => __('main.attr_volume'),
             'weight' => __('main.attr_weight'),
             'delivery.name' => __('main.attr_delivery_id'),
-            'delivery.cost' => __('main.attr_delivery_cost'),
+            'delivery_cost' => __('main.attr_delivery_cost'),
         ]"
         :default="['id', 'created_at', 'total', 'user.name', 'status.name']"
         :defaultSort="['created_at' => 'desc']"
