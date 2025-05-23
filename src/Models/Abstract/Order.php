@@ -46,6 +46,7 @@ abstract class Order extends BaseModel
             if (empty($model->cart)) {
                 $cart = new Cart();
                 $cart->setAttribute('order_id', $model->getAttribute('id'));
+                $cart->setAttribute('currency_id', $model->getAttribute('currency_id'));
                 $cart->save();
 
                 $model->setRelation('cart', $cart);

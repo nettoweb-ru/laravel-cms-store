@@ -138,6 +138,14 @@ abstract class OrderController extends BaseController
             $item['currency.slug'] = get_currency_symbol($item['currency.slug']);
         }
 
+        if (array_key_exists('weight', $item)) {
+            $item['weight'] = format_number($item['weight']);
+        }
+
+        if (array_key_exists('volume', $item)) {
+            $item['volume'] = format_number($item['volume']);
+        }
+
         return $item;
     }
 
