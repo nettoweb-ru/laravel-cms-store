@@ -2,7 +2,11 @@
 
 ### nettoweb/laravel-cms-store
 
-#### [Unreleased]
+#### [2.0.2] - 2025-05-30
+
+##### Added
+
+- Korean language support
 
 ##### Fixed
 
@@ -14,6 +18,3 @@
 ##### Fixed
 
 - Creating new order by administrator
-
-
-
