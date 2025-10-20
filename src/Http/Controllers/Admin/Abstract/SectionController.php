@@ -105,10 +105,13 @@ abstract class SectionController extends BaseController
     public function list(Request $request): JsonResponse
     {
         $parentId = $request->get('parent');
+        $filter = $this->getCustomListFilter($request);
+        $filter['parent_id'] = [
+            'value' => $parentId,
+            'strict' => true,
+        ];
 
-        $return = $this->getList($this->createModel($parentId), [
-            'parent_id' => $parentId,
-        ]);
+        $return = $this->getList($this->createModel($parentId), $filter);
 
         return response()->json($return);
     }

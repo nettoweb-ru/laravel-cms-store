@@ -2,6 +2,12 @@
 
 ### nettoweb/laravel-cms-store
 
+#### Unreleased
+
+##### Added
+
+- Support for quick search in AJAX lists
+
 #### [2.0.2] - 2025-05-30
 
 ##### Added

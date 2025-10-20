@@ -107,10 +107,13 @@ abstract class MerchandiseController extends BaseController
      */
     public function list(Request $request): JsonResponse
     {
-        $filter = [];
+        $filter = $this->getCustomListFilter($request);
 
         if ($parentId = $request->query('parent')) {
-            $filter['sections.section_id'] = $parentId;
+            $filter['sections.section_id'] = [
+                'value' => $parentId,
+                'strict' => true,
+            ];
         }
 
         $return = $this->getList($this->createModel($parentId), $filter);
