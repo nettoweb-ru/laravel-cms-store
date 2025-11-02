@@ -104,7 +104,7 @@
         @if ($object->exists)
             <x-slot name="tab2">
                 <x-cms::list
-                    id="group"
+                    id="section-{{ (int) $object->id }}"
                     :url="route('admin.store.section.list', ['parent' => $object->id])"
                     :columns="[
                         'id' => __('main.attr_id'),
@@ -119,12 +119,13 @@
                         'create' => route('admin.store.section.create', ['parent' => $object->id]),
                         'delete' => route('admin.store.section.delete'),
                         'toggle' => route('admin.store.section.toggle'),
+                        'downloadCsv' => route('admin.store.section.download-csv', ['parent' => $object->id]),
                     ]"
                 />
             </x-slot>
             <x-slot name="tab3">
                 <x-cms::list
-                    id="merchandise"
+                    id="merchandise-{{ (int) $object->id }}"
                     :url="route('admin.store.merchandise.list', ['parent' => $object->id])"
                     :columns="[
                         'id' => __('main.attr_id'),
@@ -143,6 +144,7 @@
                         'create' => route('admin.store.merchandise.create', ['parent' => $object->id]),
                         'delete' => route('admin.store.merchandise.delete'),
                         'toggle' => route('admin.store.merchandise.toggle'),
+                        'downloadCsv' => route('admin.store.merchandise.download-csv', ['parent' => $object->id]),
                     ]"
                 />
             </x-slot>

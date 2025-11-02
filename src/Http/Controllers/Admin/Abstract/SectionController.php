@@ -104,15 +104,7 @@ abstract class SectionController extends BaseController
      */
     public function list(Request $request): JsonResponse
     {
-        $parentId = $request->get('parent');
-        $filter = $this->getCustomListFilter($request);
-        $filter['parent_id'] = [
-            'value' => $parentId,
-            'strict' => true,
-        ];
-
-        $return = $this->getList($this->createModel($parentId), $filter);
-
+        $return = $this->getListArray($request);
         return response()->json($return);
     }
 
@@ -180,6 +172,26 @@ abstract class SectionController extends BaseController
         }
 
         return $return;
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws NettoException
+     */
+    protected function getListArray(Request $request): array
+    {
+        $parentId = $request->get('parent');
+
+        return $this->getList(
+            $this->createModel($parentId),
+            array_merge([
+                "parent_id" => [
+                    'value' => $parentId,
+                    'strict' => true,
+                ]
+            ], $this->getListFilter($request))
+        );
     }
 
     /**

@@ -6,7 +6,8 @@
 
 ##### Added
 
-- Support for quick search in AJAX lists
+- Quick search in AJAX lists
+- Data CSV export
 
 #### [2.0.2] - 2025-05-30
 

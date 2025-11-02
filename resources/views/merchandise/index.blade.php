@@ -17,6 +17,7 @@
             'create' => route('admin.store.section.create'),
             'delete' => route('admin.store.section.delete'),
             'toggle' => route('admin.store.section.toggle'),
+            'downloadCsv' => route('admin.store.section.download-csv'),
         ]"
     />
     <x-cms::list
@@ -41,6 +42,7 @@
             'create' => route('admin.store.merchandise.create'),
             'delete' => route('admin.store.merchandise.delete'),
             'toggle' => route('admin.store.merchandise.toggle'),
+            'downloadCsv' => route('admin.store.merchandise.download-csv'),
         ]"
     />
 </x-cms::layout.admin>

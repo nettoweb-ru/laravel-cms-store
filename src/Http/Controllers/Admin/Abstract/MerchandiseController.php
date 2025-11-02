@@ -107,25 +107,7 @@ abstract class MerchandiseController extends BaseController
      */
     public function list(Request $request): JsonResponse
     {
-        $filter = $this->getCustomListFilter($request);
-
-        if ($parentId = $request->query('parent')) {
-            $filter['sections.section_id'] = [
-                'value' => $parentId,
-                'strict' => true,
-            ];
-        }
-
-        $return = $this->getList($this->createModel($parentId), $filter);
-        if ($parentId) {
-            foreach ($return['items'] as $key => $value) {
-                $return['items'][$key]['_editUrl'] = route($this->getRouteCrud('edit'), [
-                    $this->itemRouteId => $value['id'],
-                    'parent' => $parentId,
-                ]);
-            }
-        }
-
+        $return = $this->getListArray($request);
         return response()->json($return);
     }
 
@@ -192,6 +174,39 @@ abstract class MerchandiseController extends BaseController
             ? Section::query()->where('id', $parentId)->get()
             : collect()
         );
+
+        return $return;
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws NettoException
+     */
+    protected function getListArray(Request $request): array
+    {
+        $filter = ($parentId = $request->get('parent'))
+            ? [
+                'sections.section_id' => [
+                    'value' => $parentId,
+                    'strict' => true,
+                ]
+            ]
+            : [];
+
+        $return = $this->getList(
+            $this->createModel($parentId),
+            array_merge($filter, $this->getListFilter($request))
+        );
+
+        if ($parentId) {
+            foreach ($return['items'] as $key => $value) {
+                $return['items'][$key]['_editUrl'] = route($this->getRouteCrud('edit'), [
+                    $this->itemRouteId => $value['id'],
+                    'parent' => $parentId,
+                ]);
+            }
+        }
 
         return $return;
     }

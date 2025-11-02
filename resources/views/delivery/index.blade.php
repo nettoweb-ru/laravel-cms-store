@@ -23,6 +23,7 @@
             'create' => route('admin.store.delivery.create'),
             'delete' => route('admin.store.delivery.delete'),
             'toggle' => route('admin.store.delivery.toggle'),
+            'downloadCsv' => route('admin.store.delivery.download-csv'),
         ]"
     />
 </x-cms::layout.admin>

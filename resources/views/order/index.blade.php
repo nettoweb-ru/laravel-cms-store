@@ -20,6 +20,7 @@
         :actions="[
             'create' => route('admin.store.order.create'),
             'delete' => route('admin.store.order.delete'),
+            'downloadCsv' => route('admin.store.order.download-csv'),
         ]"
     />
     <x-cms::list
@@ -37,6 +38,7 @@
         :actions="[
             'create' => route('admin.store.status.create'),
             'delete' => route('admin.store.status.delete'),
+            'downloadCsv' => route('admin.store.status.download-csv'),
         ]"
     />
 </x-cms::layout.admin>
