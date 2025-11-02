@@ -2,7 +2,7 @@
 
 ### nettoweb/laravel-cms-store
 
-#### Unreleased
+#### [2.0.3] - 2025-11-02
 
 ##### Added
 
