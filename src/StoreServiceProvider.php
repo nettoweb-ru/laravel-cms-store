@@ -36,6 +36,14 @@ class StoreServiceProvider extends ServiceProvider
 
     /**
      * @return void
+     */
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/cms-store.php', 'cms-store');
+    }
+
+    /**
+     * @return void
      * @throws BindingResolutionException
      */
     private function registerMiddleware(): void
