@@ -19,8 +19,8 @@ class PriceRequest extends FormRequest
             ]),
             [
                 'sort' => ['integer', 'min:0', 'max:255'],
-                'slug' => ['required', 'string', 'max:255', 'lowercase', 'alpha:ascii', Rule::unique(Price::class, 'slug')->ignore($this->get('id'))],
-                'is_default' => ['in:1,0', new UniqueDefaultEntity(Price::class, $this->get('id'), $this->get('is_default'))],
+                'slug' => ['required', 'string', 'max:255', 'lowercase', 'alpha:ascii', Rule::unique(Price::class, 'slug')->ignore($this->input('id'))],
+                'is_default' => ['in:1,0', new UniqueDefaultEntity(Price::class, $this->input('id'), $this->input('is_default'))],
             ]
         );
     }

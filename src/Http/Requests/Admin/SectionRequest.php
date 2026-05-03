@@ -30,7 +30,7 @@ class SectionRequest extends FormRequest
             [
                 'sort' => ['integer', 'min:0', 'max:16777215'],
                 'album_id' => ['nullable', 'integer', 'exists:'.Album::class.',id'],
-                'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9\-]+$/', new UniqueSectionSlug($this->get('id'), $this->get('parent_id'))],
+                'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9\-]+$/', new UniqueSectionSlug($this->input('id'), $this->input('parent_id'))],
                 'parent_id' => ['nullable', 'integer', 'exists:'.Section::class.',id'],
                 'is_active' => ['in:1,0'],
             ]

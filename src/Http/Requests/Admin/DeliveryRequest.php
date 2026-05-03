@@ -19,7 +19,7 @@ class DeliveryRequest extends FormRequest
             ]),
             [
                 'sort' => ['integer', 'min:0', 'max:255'],
-                'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9\-]+$/', Rule::unique(Delivery::class, 'slug')->ignore($this->get('id'))],
+                'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9\-]+$/', Rule::unique(Delivery::class, 'slug')->ignore($this->input('id'))],
                 'is_active' => ['in:1,0'],
                 'cost' => ['decimal:0,2', 'min:0', 'max:999999.99'],
                 'currency_id' => ['required', 'integer', 'exists:'.Currency::class.',id'],

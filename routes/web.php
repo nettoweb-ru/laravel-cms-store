@@ -13,7 +13,7 @@ use Netto\Http\Controllers\Admin\{
     PriceController
 };
 
-Route::prefix(config('cms.location'))->name('admin.')->group(function() {
+Route::prefix(config('cms.admin-location'))->name('admin.')->group(function() {
     Route::middleware(['admin', 'verified'])->prefix('store')->name('store.')->group(function() {
         Route::middleware('permission:admin-store-prices')->group(function() {
             Route::resource('price', PriceController::class)->except(['toggle']);

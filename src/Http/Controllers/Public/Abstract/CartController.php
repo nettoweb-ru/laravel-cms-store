@@ -19,10 +19,10 @@ abstract class CartController extends BaseController
     {
         return response()->json(
             CartService::add(
-                $request->get('cartId'),
-                $request->get('itemId'),
-                $request->get('priceCode'),
-                $request->get('quantity')
+                $request->input('cartId'),
+                $request->input('itemId'),
+                $request->input('priceCode'),
+                $request->input('quantity')
             )
         );
     }
@@ -34,7 +34,7 @@ abstract class CartController extends BaseController
      */
     public function checkout(CheckoutRequest $request): JsonResponse
     {
-        $order = CartService::checkout($request->get('cartId'), $request->validated());
+        $order = CartService::checkout($request->input('cartId'), $request->validated());
         return response()->json(!is_null($order));
     }
 
@@ -47,7 +47,7 @@ abstract class CartController extends BaseController
     {
         return response()->json(
             CartService::clear(
-                $request->get('cartId')
+                $request->input('cartId')
             )
         );
     }
@@ -61,8 +61,8 @@ abstract class CartController extends BaseController
     {
         return response()->json(
             CartService::setCurrency(
-                $request->get('cartId'),
-                $request->get('currencyCode')
+                $request->input('cartId'),
+                $request->input('currencyCode')
             )
         );
     }
@@ -76,9 +76,9 @@ abstract class CartController extends BaseController
     {
         return response()->json(
             CartService::remove(
-                $request->get('cartId'),
-                $request->get('cartItemId'),
-                $request->get('quantity')
+                $request->input('cartId'),
+                $request->input('cartItemId'),
+                $request->input('quantity')
             )
         );
     }

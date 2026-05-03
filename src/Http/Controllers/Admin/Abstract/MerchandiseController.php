@@ -40,7 +40,7 @@ abstract class MerchandiseController extends BaseController
      */
     public function create(Request $request): Response
     {
-        $parentId = $request->get('parent');
+        $parentId = $request->input('parent');
 
         $model = $this->createModel($parentId);
         $model->loadCosts();
@@ -62,7 +62,7 @@ abstract class MerchandiseController extends BaseController
      */
     public function destroy(Request $request, string $id): RedirectResponse
     {
-        $parentId = $request->get('parent');
+        $parentId = $request->input('parent');
 
         $model = $this->getModel($id);
         $model->delete();
@@ -86,7 +86,7 @@ abstract class MerchandiseController extends BaseController
      */
     public function edit(Request $request, string $id): Response
     {
-        $parentId = $request->get('parent');
+        $parentId = $request->input('parent');
 
         $model = $this->getModel($id);
         $model->loadCosts();
@@ -140,7 +140,7 @@ abstract class MerchandiseController extends BaseController
     protected function addCrumbs(?Model $model = null): void
     {
         try {
-            $parentId = request()->get('parent');
+            $parentId = request()->input('parent');
         } catch (\Throwable $throwable) {
             throw new NettoException($throwable->getMessage());
         }
@@ -185,7 +185,7 @@ abstract class MerchandiseController extends BaseController
      */
     protected function getListArray(Request $request): array
     {
-        $filter = ($parentId = $request->get('parent'))
+        $filter = ($parentId = $request->input('parent'))
             ? [
                 'sections.section_id' => [
                     'value' => $parentId,
@@ -320,7 +320,7 @@ abstract class MerchandiseController extends BaseController
         }
 
         $parentId = $request->query('parent');
-        $to = $request->get('button_apply')
+        $to = $request->input('button_apply')
             ? $this->getRouteEdit($model->getAttribute('id'), $parentId)
             : $this->getRouteEditParent($parentId);
 

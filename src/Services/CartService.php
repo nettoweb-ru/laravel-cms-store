@@ -417,7 +417,7 @@ abstract class CartService
      */
     private static function getLifetime(): int
     {
-        return config('cms-store.cart_lifetime', 30);
+        return config('cms-store.cart-lifetime');
     }
 
     /**

@@ -1,4 +1,4 @@
 <?php
 return [
-    'cart_lifetime' => 30,
+    'cart-lifetime' => 30,
 ];

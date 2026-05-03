@@ -181,7 +181,7 @@ abstract class SectionController extends BaseController
      */
     protected function getListArray(Request $request): array
     {
-        $parentId = $request->get('parent');
+        $parentId = $request->input('parent');
 
         return $this->getList(
             $this->createModel($parentId),
@@ -286,7 +286,7 @@ abstract class SectionController extends BaseController
             return back()->with('status', __('main.error_saving_model'));
         }
 
-        $to = $request->get('button_apply')
+        $to = $request->input('button_apply')
             ? $this->getRouteEdit($model->getAttribute('id'), $model->getAttribute('parent_id'))
             : $this->getRouteIndex();
 
