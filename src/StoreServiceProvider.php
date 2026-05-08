@@ -74,6 +74,6 @@ class StoreServiceProvider extends ServiceProvider
      */
     private function registerScheduledTasks(): void
     {
-        Schedule::command(DeleteExpiredCarts::class)->dailyAt(config('cms.schedule.daily', 1));
+        Schedule::command(DeleteExpiredCarts::class)->daily();
     }
 }

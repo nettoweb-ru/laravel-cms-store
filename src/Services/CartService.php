@@ -315,7 +315,7 @@ abstract class CartService
 
         self::setConfigValues($cart);
 
-        Cookie::queue(Cookie::make(self::COOKIE_ID, $slug, self::getLifetime() * 1440));
+        Cookie::queue(Cookie::make(self::COOKIE_ID, $slug, config('cms-store.cart-lifetime') * 1440));
     }
 
     /**
@@ -409,15 +409,7 @@ abstract class CartService
      */
     private static function getExpirationDate(): string
     {
-        return date('Y-m-d H:i:s', time() + (self::getLifetime() * 86400));
-    }
-
-    /**
-     * @return int
-     */
-    private static function getLifetime(): int
-    {
-        return config('cms-store.cart-lifetime');
+        return date('Y-m-d H:i:s', time() + (config('cms-store.cart-lifetime') * 86400));
     }
 
     /**
